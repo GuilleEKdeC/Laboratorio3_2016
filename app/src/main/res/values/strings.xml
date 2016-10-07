@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WorkFromHome</string>
+    <string name="menu_opcion1">Crear una Oferta</string>
+    <string name="menu_opcion2">Ver mis Ofertas</string>
+    <string name="menu_opcion3">Configuración</string>
+    <string name="menu_opcion4">Salir</string>
+
+</resources>
