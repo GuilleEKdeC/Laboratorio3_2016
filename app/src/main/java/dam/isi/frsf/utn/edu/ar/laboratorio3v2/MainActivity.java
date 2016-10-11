@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listVw;
 
     //Se crea un ArrayList de tipo Trabajo
-    private ArrayList<Trabajo> trabajos;
+    private ArrayList<Trabajo> listaTrabajos;
 
     //Se crea un objeto de tipo AdaptadorDias
     private AdaptadorOfLaboral adaptador;
@@ -47,51 +47,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listVw = (ListView) findViewById(R.id.listview);
-        //this.inicializarTrabajos();
         Trabajo[] jobs = Trabajo.TRABAJOS_MOCK;
-
-     /*   String s = jobs[18].getCategoria().getDescripcion()+"\n"+
-                jobs[18].getDescripcion()+"\n"+
-                jobs[18].getHorasPresupuestadas().toString()+" -- "+ String.format("%.2f", jobs[0].getPrecioMaximoHora())+" -- "+jobs[0].getMonedaPago()+"\n"+
-                jobs[18].getFechaEntrega()+" -- "+jobs[0].getRequiereIngles();
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-*/
-        //Se define un nuevo adaptador de tipo AdaptadorOfLaboral donde se le pasa como argumentos el contexto de la actividad y el arraylist de los trabajos
-        //adaptador = new AdaptadorOfLaboral(this, trabajos);
-        ArrayList<Trabajo> listaTrabajos = new ArrayList<Trabajo>();
+        listaTrabajos = new ArrayList<Trabajo>();
         listaTrabajos.addAll(Arrays.asList(jobs));
+
+        //Se define un nuevo adaptador de tipo AdaptadorOfLaboral donde se le pasa como argumentos el contexto de la actividad y el arraylist de los trabajos
         AdaptadorOfLaboral adapter= new AdaptadorOfLaboral(this,listaTrabajos );//getApplicationContext(),Arrays.asList(jobs)
 
        //Se establece el adaptador en la Listview
-        listVw.setAdapter(adapter);       //listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice , android.R.id.text1,colorArrayList);
-
-
-     /*   String s = jobs[18].getCategoria().getDescripcion()+"\n";/*+
-                jobs[18].getDescripcion()+"\n"+
-                jobs[18].getHorasPresupuestadas().toString()+" -- "+ String.format("%.2f", jobs[0].getPrecioMaximoHora())+" -- "+jobs[0].getMonedaPago()+"\n"+
-                jobs[18].getFechaEntrega()+" -- "+jobs[0].getRequiereIngles();
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();*/
+        listVw.setAdapter(adapter);
 
         //Esto es mas que nada es a nivel de diseño con el objetivo de crear unas lineas mas anchas entre item y item
-//        listVw.setDividerHeight(3);
+        listVw.setDividerHeight(3);
 
-        //Se le aplica un Listener donde ira lo que tiene que hacer en caso de que sea pulsado
-     /*   listVw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-
-                //En caso de que la posicion seleccionada gracias a "arg2" sea true que lo cambie a false
-               /* if (trabajos.get(arg2).isChekeado()) {
-                    trabajos.get(arg2).setChekeado(false);
-                } else {
-                    //aqui al contrario que la anterior, que lo pase a true.
-                    trabajos.get(arg2).setChekeado(true);
-                }*/
-                //Se notifica al adaptador de que el ArrayList que tiene asociado ha sufrido cambios (forzando asi a ir al metodo getView())
-     /*           adaptador.notifyDataSetChanged();
-
-            }
-        });*/
 
     }
 
@@ -107,14 +76,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*------------------------------- Inicializar Trabajos ---------------------------------------*/
-    public void inicializarTrabajos(){
-
-        this.trabajos = new ArrayList<Trabajo>();
-
-        for(int i = 0; i < Trabajo.TRABAJOS_MOCK.length; i++){
-            trabajos.add(Trabajo.TRABAJOS_MOCK[i]);
-        }
-    }
-
 }
+
+
+
+
+//Se le aplica un Listener donde ira lo que tiene que hacer en caso de que sea pulsado
+    /*    listVw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onLongClickListener(){}
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
+
+                //En caso de que la posicion seleccionada gracias a "arg2" sea true que lo cambie a false
+               /* if (trabajos.get(arg2).isChekeado()) {
+                    trabajos.get(arg2).setChekeado(false);
+                } else {
+                    //aqui al contrario que la anterior, que lo pase a true.
+                    trabajos.get(arg2).setChekeado(true);
+                }*/
+//Se notifica al adaptador de que el ArrayList que tiene asociado ha sufrido cambios (forzando asi a ir al metodo getView())
+     /*           adaptador.notifyDataSetChanged();
+
+            }
+        });*/

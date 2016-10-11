@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -103,6 +104,17 @@ public class AdaptadorOfLaboral extends ArrayAdapter<Trabajo> {
 
         viewholder.fin.setText(String.format("%1$s %2$s %3$s","Fecha Fin:",sdf.format(trabajos.get(position).getFechaEntrega()),"  "));
         viewholder.ingles.setChecked(trabajos.get(position).getRequiereIngles());
+
+        //Implementamos el método OnLongClickListener que capturará la opción laboral seleccionada
+        item.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(contexto, "Long Clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+                //Se notifica al adaptador de que el ArrayList que tiene asociado ha sufrido cambios (forzando asi a ir al metodo getView())
+     /*           adaptador.notifyDataSetChanged();*/
+        });
 
         //Se devuelve ya la vista nueva o reutilizada que ha sido dibujada
         return (item);
