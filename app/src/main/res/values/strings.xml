@@ -5,4 +5,10 @@
     <string name="menu_opcion3">Configuración</string>
     <string name="menu_opcion4">Salir</string>
 
+    <string name="categoría1">"Arquitecto"</string>
+    <string name="categoría2">"Desarrollador"</string>
+    <string name="categoría3">"Tester"</string>
+    <string name="categoría4">"Analista"</string>
+    <string name="categoría5">"Mobile Developer"</string>
+
 </resources>
