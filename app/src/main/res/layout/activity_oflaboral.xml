@@ -241,12 +241,13 @@
             android:id="@+id/textView8" />
 
         <EditText
-            android:layout_width="57dp"
+            android:layout_width="47dp"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editText4"
-            android:layout_weight="0.45" />
+            android:singleLine="false"
+            android:layout_weight="0.50" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_height="wrap_content"

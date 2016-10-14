@@ -2,6 +2,7 @@ package dam.isi.frsf.utn.edu.ar.laboratorio3v2;
 
 
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -52,9 +53,12 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
     String stringFin;
     EditText editTextFin;
     SimpleDateFormat df_fin;
+    String stringDía;
+    String[] listaDías;
 
-     /*   Switch switchIngles;
-        Boolean ingles;*/
+
+    Switch switchIngles;
+    Boolean ingles;
     Button btGuardar;
     Button btCancelar;
 
@@ -98,11 +102,11 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
 
         stringFin = "";
         editTextFin = (EditText) findViewById(R.id.editText4);
+        listaDías = null;
+        stringDía = "";
 
-
-
-
-      /*   switchIngles = (Switch) findViewById(R.id.switch1);*/
+        switchIngles = (Switch) findViewById(R.id.switch1);
+        ingles = false;
 
         btGuardar = (Button) findViewById(R.id.buttonGuardar);
         btCancelar = (Button) findViewById(R.id.buttonCancelar);
@@ -172,11 +176,12 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         });
         //------------------------Fin del Radio Group (Moneda de Pago)----------------------------//
 
+
         //va la captura de fin de fecha
 
         // Recuperación del valor del switch del Requerimiento o No de Ingles para el puesto
 
-//        ingles = switchIngles.isEnabled();
+//
 
 
         btGuardar.setOnClickListener(new View.OnClickListener() {
@@ -215,18 +220,21 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                 else {
                     df_fin = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
                     try {
-                        Toast.makeText(getBaseContext(),"Entré a la TRY!", Toast.LENGTH_SHORT).show();
                         fin = (Date) df_fin.parse(stringFin);
                     } catch (Exception e) {
-                        Toast.makeText(getBaseContext(),"Entré a la Excepción!", Toast.LENGTH_SHORT).show();
                         Log.e("formattedDateFromString", "Exception in formateDateFromstring(): " + e.getMessage());
                     }
                 }// Fecha Fin Tarea
 
+// !!!!!!!!!!!! Como no logramos tomar la fecha ingresada, ponemos una de prueba
+                Date fechaPrueba = new Date();
+
+               // ingles = switchIngles.isEnabled();
+
                 // creo mi nueva instancia Trabajo
                 trabajo = new Trabajo(totalTrabajos+1,descripcion,categoria);
 
-                Toast.makeText(getBaseContext(), "Datos de instancia Trabajo: "+ "\n"+"Categoría: "+trabajo.getCategoria().getDescripcion()+"\n"+"Descripción: "+descripcion+"\n"+"Horas: "+horas+"\n"+"Precio: "+precio+"\n"+"Moneda: "+stringMoneda+"\n"+"Fecha de Finalización: "+fin.toString()+"\n", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Datos de instancia Trabajo: "+ "\n"+"Categoría: "+trabajo.getCategoria().getDescripcion()+"\n"+"Descripción: "+descripcion+"\n"+"Horas: "+horas+"\n"+"Precio: "+precio+"\n"+"Moneda: "+stringMoneda+"\n"+"Fecha de Finalización: "+fechaPrueba.toString()+"\n"+"Requiere Inglés: "+ingles+"\n", Toast.LENGTH_SHORT).show();
 
                 // seteo los restantes valores ingresados en el Alta Trabajo
         /*        trabajo.setHorasPresupuestadas(horas);
