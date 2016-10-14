@@ -64,6 +64,13 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
     Button btGuardar;
     Button btCancelar;
 
+    boolean bDesc;
+    boolean bHoras;
+    boolean bPrecio;
+    boolean bMoneda;
+    boolean bFecha;
+    boolean bIngles;
+
     /*-----------------------------------------On Create------------------------------------------*/
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +120,12 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         btGuardar = (Button) findViewById(R.id.buttonGuardar);
         btCancelar = (Button) findViewById(R.id.buttonCancelar);
 
+        bDesc = false;
+        bHoras = false;
+        bPrecio = false;
+        bMoneda = false;
+        bFecha = false;
+        bIngles = false;
 
         //--------------------------Manejo Spinner (Categoría seleccionada)-----------------------//
         // Setea el Spinner con los horarios posibles, cargados en el recurso arrays.xml
@@ -131,7 +144,6 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                 spinnerCategorias.clearFocus();
                 categoria.setId(Categoria.CATEGORIAS_MOCK[0].getIdOf(nameCategoria));
                 categoria.setDescripcion(nameCategoria);
-                Toast.makeText(getBaseContext(), "Categoría seleccionada: "+categoria.getDescripcion()+" con id: "+categoria.getId(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -185,6 +197,7 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                     Toast.makeText(getBaseContext(),R.string.warningDesc, Toast.LENGTH_SHORT).show();
                     editTextDescripcion.requestFocus();
                 }
+                else bDesc = true;
 
                 //---- Extraemos los datos del campo "Horas de Trabajo"
                 stringHoras = editTextHoras.getText().toString();
@@ -192,7 +205,10 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                     Toast.makeText(getBaseContext(),R.string.warningHoras, Toast.LENGTH_SHORT).show();
                     editTextHoras.requestFocus();
                 }
-                else horas = Integer.valueOf(stringHoras);
+                else {
+                    horas = Integer.valueOf(stringHoras);
+                    bHoras = true;
+                }
 
                 //---- Extraemos los datos del campo "Precio por Hora"
                 stringPrecio = editTextPrecio.getText().toString();
@@ -200,13 +216,17 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                     Toast.makeText(getBaseContext(),R.string.warningPrecio, Toast.LENGTH_SHORT).show();
                     editTextPrecio.requestFocus();
                 }
-                else precio = Double.valueOf(stringPrecio);
+                else{
+                    precio = Double.valueOf(stringPrecio);
+                    bPrecio = true;
+                }
 
                 //---- Reconocemos si ingresaron "Moneda" de pago
                 if(moneda == 0){
                     Toast.makeText(getBaseContext(),R.string.warningMoneda, Toast.LENGTH_SHORT).show();
                    // radGrup.requestFocus();
                 }
+                else bMoneda = true;
 
                 //---- Extraemos los datos del campo "Fecha Fin Tarea"
                 stringFin = editTextFin.getText().toString();
@@ -215,6 +235,7 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                     editTextFin.requestFocus();
                 }
                 else {
+                    bFecha = true;
                     df_fin = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
                     try {
                         fin = (Date) df_fin.parse(stringFin);
@@ -226,8 +247,10 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                 //Como no logramos tomar la fecha ingresada, ponemos una de prueba
                 Date fechaPrueba = new Date();
 
+
                 //---- Extraemos el Requerimiento de Inglés
                 ingles = swIngles.isEnabled();
+                bIngles = true;
 
                 // creo mi nueva instancia Trabajo
                 trabajo = new Trabajo(totalTrabajos+1,descripcion,categoria);
@@ -241,10 +264,11 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
 
                 // Incorporo el nuevo trabajo a la lista de trabajos de la categoría correspondiente
                 trabajo.getCategoria().addTrabajo(trabajo);
-
-                tarea.putExtra("resultado",trabajo);
-                setResult(RESULT_OK, tarea);
-                finish();
+                if(bFecha && bIngles && bMoneda && bPrecio && bHoras && bDesc){
+                    tarea.putExtra("resultado",trabajo);
+                    setResult(RESULT_OK, tarea);
+                    finish();
+                }
             }
         });
 
@@ -254,7 +278,6 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                 Trabajo trabajoVacío = new Trabajo(0,"vacío");
                 tarea.putExtra("resultado",trabajoVacío);
                 setResult(RESULT_OK, tarea);
-                Toast.makeText(getBaseContext(), "Boton Cancelar: ", Toast.LENGTH_SHORT).show();
                 finish();
             }
        });
