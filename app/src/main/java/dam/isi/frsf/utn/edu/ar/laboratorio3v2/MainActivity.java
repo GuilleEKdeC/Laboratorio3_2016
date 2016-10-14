@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         listVw.setDividerHeight(3);
 
         //Registramos que el listView de Ofertas Laborales, tendrá asociado un Menú Contextual
-        registerForContextMenu(listVw);
+        //registerForContextMenu(listVw);
 
      }
 
@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*---------------------------- On Context Item Selected --------------------------------------*/
     public boolean onContextItemSelected(MenuItem item) {
+
+        Toast.makeText(getBaseContext(), "Clickee en el Menú Contextual", Toast.LENGTH_LONG).show();
         return false;
     }
 

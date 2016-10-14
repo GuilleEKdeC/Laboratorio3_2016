@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import android.view.ContextMenu;
 
 import dam.isi.frsf.utn.edu.ar.laboratorio3v2.Trabajo;
 
@@ -72,6 +73,7 @@ public class AdaptadorOfLaboral extends ArrayAdapter<Trabajo> {
             viewholder = (ViewHolder) item.getTag();
         }
 
+
         //Se cargan los datos desde el ArrayList
         viewholder.categoria.setText(trabajos.get(position).getCategoria().getDescripcion());
         viewholder.descripcion.setText(trabajos.get(position).getDescripcion());
@@ -109,6 +111,7 @@ public class AdaptadorOfLaboral extends ArrayAdapter<Trabajo> {
         item.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View v) {
+
                 Toast.makeText(contexto, "Long Clicked", Toast.LENGTH_SHORT).show();
                 return true;
             }
