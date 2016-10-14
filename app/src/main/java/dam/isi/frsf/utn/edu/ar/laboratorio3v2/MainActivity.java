@@ -53,16 +53,13 @@ public class MainActivity extends AppCompatActivity {
         listaTrabajos = new ArrayList<Trabajo>();
         listaTotalTrabajos();
 
-        //Trabajo[] jobs = Trabajo.TRABAJOS_MOCK;
-        //listaTrabajos.addAll(Arrays.asList(jobs));/
-
         //Se define un nuevo adaptador de tipo AdaptadorOfLaboral donde se le pasa como argumentos el contexto de la actividad y el arraylist de los trabajos
-        AdaptadorOfLaboral adapter= new AdaptadorOfLaboral(this,listaTrabajos );//getApplicationContext(),Arrays.asList(jobs)
+        adaptador= new AdaptadorOfLaboral(this,listaTrabajos );//getApplicationContext(),Arrays.asList(jobs)
 
         listVw = (ListView) findViewById(R.id.listview);
 
         //Se establece el adaptador en la Listview
-        listVw.setAdapter(adapter);
+        listVw.setAdapter(adaptador);
 
         //Esto es mas que nada es a nivel de diseño con el objetivo de crear unas lineas mas anchas entre item y item
         listVw.setDividerHeight(3);
@@ -83,10 +80,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.idMenu1:
                 Intent tarea= new Intent(this,NuevaOfLaboral.class);
                 tarea.putExtra("cantidadTrabajos",Integer.toString(listaTrabajos.size()));
-               // Toast.makeText(getBaseContext(), "Trabajos: "+Integer.toString(listaTrabajos.size()), Toast.LENGTH_SHORT).show();
-               // tarea.putExtra("cantidadTrabajos",listaTrabajos.size());
-                startActivity(tarea);
-                return true;
+                startActivityForResult(tarea,0);
+                 return true;
             case R.id.idMenu2:
                  // do whatever
                  return true;
@@ -107,7 +102,25 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    /*----------------------------------InicializarListasTrabajo----------------------------------*/
+    /*-------------------------------- On Activity Result ----------------------------------------*/
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Trabajo newTrabajo = (Trabajo) data.getSerializableExtra("resultado");
+
+        if(newTrabajo.getId() != 0) { // Si NO es un Trabajo Nuevo Vacío, osea que no hayan Cancelado la operación
+            Toast.makeText(getBaseContext(), "Nuevo Trabajo: " + newTrabajo.getDescripcion(), Toast.LENGTH_LONG).show();
+
+            // Insertamos en la Categoría correspondiente el Nuevo Trabajo
+            Categoria.CATEGORIAS_MOCK[newTrabajo.getCategoria().getId()].addTrabajo(newTrabajo);
+
+            // Incorporamos a la "listaTrabajos" el Nuevo Trabajo
+            this.listaTotalTrabajos();
+
+            //Se notifica al adaptador de que el ArrayList que tiene asociado ha sufrido cambios (forzando asi a ir al metodo getView())
+            adaptador.notifyDataSetChanged();
+        }
+    }
+
+    /*------------------------------ InicializarListasTrabajo----------------------------------*/
     //Inicializa las listas de cada Categoría con los trabajos que le pertenecen
     private void inicializarListasTrabajo() {
 
@@ -116,20 +129,9 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < idTrab; i++) {
             idCat = (Trabajo.TRABAJOS_MOCK[i]).getCategoria().getId();
-        //    Toast.makeText(getBaseContext(), "Id Categoria: "+idCat, Toast.LENGTH_LONG).show();
             Categoria.CATEGORIAS_MOCK[idCat-1].addTrabajo(Trabajo.TRABAJOS_MOCK[i]); // inserta en la lista de Trabajos de la Categoría, el trabajo TRABAJOS_MOCK[i]
        }
     }
-
-    /*--------------------------------verTrabajosCategoría----------------------------------------*/
-   /* public void verTrabajosCategoría(Categoria c){
-
-        Toast.makeText(getBaseContext(),"Categoría: "+c.getDescripcion(),Toast.LENGTH_SHORT).show();
-        ArrayList<Trabajo> listaTrabajos = c.getTrabajo();
-        for (int i = 0; i < listaTrabajos.size(); i++){
-            Toast.makeText(getBaseContext(), "Trabajo: "+listaTrabajos.get(i).getDescripcion(), Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
     /*------------------------------------listaTotalTrabajos--------------------------------------*/
     protected void listaTotalTrabajos() {
@@ -145,25 +147,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
-
-
-
-//Se le aplica un Listener donde ira lo que tiene que hacer en caso de que sea pulsado
-    /*    listVw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onLongClickListener(){}
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-
-                //En caso de que la posicion seleccionada gracias a "arg2" sea true que lo cambie a false
-               /* if (trabajos.get(arg2).isChekeado()) {
-                    trabajos.get(arg2).setChekeado(false);
-                } else {
-                    //aqui al contrario que la anterior, que lo pase a true.
-                    trabajos.get(arg2).setChekeado(true);
-                }*/
-//Se notifica al adaptador de que el ArrayList que tiene asociado ha sufrido cambios (forzando asi a ir al metodo getView())
-     /*           adaptador.notifyDataSetChanged();
-
-            }
-        });*/

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
@@ -57,7 +58,8 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
     String[] listaDías;
 
 
-    Switch switchIngles;
+    SwitchCompat swIngles;
+     /*   Switch switchIngles;*/
     Boolean ingles;
     Button btGuardar;
     Button btCancelar;
@@ -93,7 +95,7 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         stringHoras ="";
         editTextHoras = (EditText) findViewById(R.id.editText2);
 
-        moneda = 6;// representando el por defecto, que es desconocido*/
+        moneda = 0;// representa disabled*/
         stringMoneda ="";
         radGrup = (RadioGroup) findViewById(R.id.rdgroup);
 
@@ -105,7 +107,7 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         listaDías = null;
         stringDía = "";
 
-        switchIngles = (Switch) findViewById(R.id.switch1);
+        swIngles = (SwitchCompat) findViewById(R.id.switch1);
         ingles = false;
 
         btGuardar = (Button) findViewById(R.id.buttonGuardar);
@@ -136,9 +138,6 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
             public void onNothingSelected(AdapterView<?> parentView) {  }
 
         });// Fin Listener
-
-
-       // texto.setMovementMethod(new ScrollingMovementMethod());
         //-------------------------------------Fin del Spinner------------------------------------//
 
         //Manejo del Radio Group Vertical de Selección de Moneda de Pago
@@ -176,14 +175,6 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         });
         //------------------------Fin del Radio Group (Moneda de Pago)----------------------------//
 
-
-        //va la captura de fin de fecha
-
-        // Recuperación del valor del switch del Requerimiento o No de Ingles para el puesto
-
-//
-
-
         btGuardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0)
             {
@@ -211,6 +202,12 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                 }
                 else precio = Double.valueOf(stringPrecio);
 
+                //---- Reconocemos si ingresaron "Moneda" de pago
+                if(moneda == 0){
+                    Toast.makeText(getBaseContext(),R.string.warningMoneda, Toast.LENGTH_SHORT).show();
+                   // radGrup.requestFocus();
+                }
+
                 //---- Extraemos los datos del campo "Fecha Fin Tarea"
                 stringFin = editTextFin.getText().toString();
                 if(stringFin.equals("")){ // si no ha ingresado la fecha de finalización
@@ -226,45 +223,37 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
                     }
                 }// Fecha Fin Tarea
 
-// !!!!!!!!!!!! Como no logramos tomar la fecha ingresada, ponemos una de prueba
+                //Como no logramos tomar la fecha ingresada, ponemos una de prueba
                 Date fechaPrueba = new Date();
 
-               // ingles = switchIngles.isEnabled();
+                //---- Extraemos el Requerimiento de Inglés
+                ingles = swIngles.isEnabled();
 
                 // creo mi nueva instancia Trabajo
                 trabajo = new Trabajo(totalTrabajos+1,descripcion,categoria);
 
-                Toast.makeText(getBaseContext(), "Datos de instancia Trabajo: "+ "\n"+"Categoría: "+trabajo.getCategoria().getDescripcion()+"\n"+"Descripción: "+descripcion+"\n"+"Horas: "+horas+"\n"+"Precio: "+precio+"\n"+"Moneda: "+stringMoneda+"\n"+"Fecha de Finalización: "+fechaPrueba.toString()+"\n"+"Requiere Inglés: "+ingles+"\n", Toast.LENGTH_SHORT).show();
-
                 // seteo los restantes valores ingresados en el Alta Trabajo
-        /*        trabajo.setHorasPresupuestadas(horas);
+                trabajo.setHorasPresupuestadas(horas);
                 trabajo.setPrecioMaximoHora(precio);
-               trabajo.setMonedaPago(moneda);
-*/
-        /*        String dtStart = "2010-10-15T09:27:37Z";
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                try {
-                    //Date date = format.parse(dtStart);
-                    trabajo.setFechaEntrega(format.parse(dtStart));
-                    System.out.println(date);
-                } catch (ParseException e) {
+                trabajo.setMonedaPago(moneda);
+                trabajo.setFechaEntrega(fechaPrueba);   // !!!! RECORDAR QUE ESTA ES UNA FECHA DE PRUEBA, hay que cambiarla por la que ingresan
+                trabajo.setRequiereIngles(ingles);
 
-                    e.printStackTrace();
-                }
-*/
-         //       trabajo.setRequiereIngles(ingles);
+                // Incorporo el nuevo trabajo a la lista de trabajos de la categoría correspondiente
+                trabajo.getCategoria().addTrabajo(trabajo);
 
-                // incorporo el nuevo trabajo a la lista de trabajos de la categoría correspondiente
-        //        trabajo.getCategoria().addTrabajo(trabajo);
-
-               // adapter.notifyDataSetChanged();
-                //finish();
+                tarea.putExtra("resultado",trabajo);
+                setResult(RESULT_OK, tarea);
+                finish();
             }
         });
 
        btCancelar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0){
 
+                Trabajo trabajoVacío = new Trabajo(0,"vacío");
+                tarea.putExtra("resultado",trabajoVacío);
+                setResult(RESULT_OK, tarea);
                 Toast.makeText(getBaseContext(), "Boton Cancelar: ", Toast.LENGTH_SHORT).show();
                 finish();
             }
