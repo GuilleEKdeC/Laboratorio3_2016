@@ -4,6 +4,9 @@ package dam.isi.frsf.utn.edu.ar.laboratorio3v2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,8 +21,9 @@ import java.io.Serializable;
 
 public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
 
-/*    String descripcion;
-    Trabajo trabajo;*/
+    String descripcion;
+    EditText editTextDescripcion;
+    Trabajo trabajo;
 
     Intent tarea;
     int totalTrabajos;
@@ -33,7 +37,7 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
 
     /*
 
-        EditText editTextDescripcion;
+
         EditText editTextHoras;
         EditText editTextPrecio;
         EditText editTextFin;
@@ -49,15 +53,18 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_oflaboral);
 
         //inicializo variables
+
+        // Manejo del Intent
         tarea = getIntent();
         String nombre=tarea.getStringExtra("cantidadTrabajos");
         totalTrabajos = Integer.valueOf(nombre);
-        Toast.makeText(getBaseContext(), "String: "+nombre, Toast.LENGTH_LONG).show();
-        Toast.makeText(getBaseContext(), "Integer: "+totalTrabajos, Toast.LENGTH_LONG).show();
+        //totalTrabajos = tarea.getIntExtra("cantidadTrabajos");
+        Toast.makeText(getBaseContext(), "Total Trabajos: "+totalTrabajos, Toast.LENGTH_LONG).show();
+        // Fin manejo del Intent
 
         nameCategoria = null;
         categoria = new Categoria();
- //       trabajo = null;
+        trabajo = null;
         listaCategorias = null;
  /*       horas = 0;
         precio = 0.0;
@@ -102,20 +109,23 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
             public void onNothingSelected(AdapterView<?> parentView) {  }
 
         });// Fin Listener
+
+
+       // texto.setMovementMethod(new ScrollingMovementMethod());
         //-------------------------------------Fin del Spinner------------------------------------//
 
 
         //--------------------------Manejo EditText (Descripción Trabajo)-------------------------//
-     /*   editTextDescripcion.addTextChangedListener(new TextWatcher() {
+  /*     editTextDescripcion.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
-                nameDescripcion = s.toString();
+                descripcion = s.toString();
              }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });*/
+        });
         // Fin Listener
         //--------------------------------Fin del EditText Descripción----------------------------//
 
@@ -192,16 +202,12 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         btGuardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0)
             {
-                // extraigo el último id Trabajo para inicializar el nuevo trabajo con ese id + 1
-            //    int idTrab = cantidadTrabajos()+1;
-                int idTrab = 50;
-
                 Toast.makeText(getBaseContext(), "Boton Guardar", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getBaseContext(), "Cantidad de Trabajos: "+idTrab, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Cantidad de Trabajos: "+totalTrabajos, Toast.LENGTH_SHORT).show();
 
-
+           //     Toast.makeText(getBaseContext(), "Descripción: "+descripcion, Toast.LENGTH_SHORT).show();
                 // creo mi nueva instancia Trabajo
-         //       trabajo = new Trabajo(idTrab,descripcion,categoria);
+          //      trabajo = new Trabajo(totalTrabajos+1,descripcion,categoria);
 
                 // seteo los restantes valores ingresados en el Alta Trabajo
         /*        trabajo.setHorasPresupuestadas(horas);
@@ -232,6 +238,7 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
             public void onClick(View arg0){
 
                 Toast.makeText(getBaseContext(), "Boton Cancelar: ", Toast.LENGTH_SHORT).show();
+                finish();
             }
        });
     }
