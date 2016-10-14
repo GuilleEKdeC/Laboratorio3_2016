@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
 import android.text.Layout;
+import android.view.ContextMenu;
 import android.view.Menu;//Lo agregué yo porque no me veía los Menu
+import android.view.MenuInflater;
 import android.view.MenuItem;//Lo agregué yo porque no me veía los MenuItem
 //import android.view.ContextMenu;
 //import android.widget.AdapterView;
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         //Esto es mas que nada es a nivel de diseño con el objetivo de crear unas lineas mas anchas entre item y item
         listVw.setDividerHeight(3);
 
+        //Registramos que el listView de Ofertas Laborales, tendrá asociado un Menú Contextual
+        registerForContextMenu(listVw);
+
      }
 
     /*----------------------- On Create Option Menu (creación Menú Ppal)--------------------------*/
@@ -96,6 +101,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*----------------- On Create Context Option Menu (creación Menú Contextual)------------------*/
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+
+        super.onCreateContextMenu(menu,v,menuInfo);
+        getMenuInflater().inflate(R.menu.menu_contextual, menu);
+
+    }
 
     /*---------------------------- On Context Item Selected --------------------------------------*/
     public boolean onContextItemSelected(MenuItem item) {
