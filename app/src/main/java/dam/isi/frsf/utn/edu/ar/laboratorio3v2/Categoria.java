@@ -39,7 +39,7 @@ public class Categoria implements Serializable {
     //--------Declaración de Variables--------//
     private Integer id;
     private String descripcion;     //Nombre de la Categoría
-    private List<Trabajo> trabajos; //Lista con todos los TRABAJOS de ésta categoría
+    private ArrayList<Trabajo> trabajos; //Lista con todos los TRABAJOS de ésta categoría
 
 
     //--------Declaración de Constante--------//
@@ -49,7 +49,8 @@ public class Categoria implements Serializable {
             new Categoria(2,"Desarrollador"),
             new Categoria(3,"Tester"),
             new Categoria(4,"Analista"),
-            new Categoria(5,"Mobile Developer")
+            new Categoria(5,"Mobile Developer"),
+            new Categoria(6,"Otra..")
     };
 
     //---------------------------------------Constructor------------------------------------------//
@@ -69,6 +70,16 @@ public class Categoria implements Serializable {
         return id;
     }
     //----------------------------------------//
+    // Agregado por mi
+    public Integer getIdOf(String desc) {
+
+        for(int i = 0; i < CATEGORIAS_MOCK.length; i++) {
+            if (CATEGORIAS_MOCK[i].getDescripcion().equals(desc))
+                return (CATEGORIAS_MOCK[i].getId());
+        };
+        return 6;
+    }
+    //----------------------------------------//
     public void setId(Integer id) {
         this.id = id;
     }
@@ -81,11 +92,11 @@ public class Categoria implements Serializable {
         this.descripcion = descripcion;
     }
     //----------------------------------------//
-    public List<Trabajo> getTrabajo() {
+    public ArrayList<Trabajo> getTrabajo() {
         return trabajos;
     }
     //----------------------------------------//
-    public void setTrabajo(List<Trabajo> trabajos) {
+    public void setTrabajo(ArrayList<Trabajo> trabajos) {
         this.trabajos = trabajos;
     }
 
@@ -93,5 +104,18 @@ public class Categoria implements Serializable {
     public void addTrabajo(Trabajo t){
         this.trabajos.add(t);
     }
+
+    // Agregado por mi
+    /*--------------------------------------cantidadTrabajos--------------------------------------*/
+  /*  protected int cantidadTrabajos(){
+
+        int i = 0;
+        int countId = 0;
+        while(i < Categoria.CATEGORIAS_MOCK.length){
+            countId =+ (Categoria.CATEGORIAS_MOCK[i]).getTrabajo().size();
+            i++;
+        }
+        return countId;
+    }*/
 
 }

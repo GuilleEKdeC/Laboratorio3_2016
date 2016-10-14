@@ -10,5 +10,6 @@
     <string name="categoría3">"Tester"</string>
     <string name="categoría4">"Analista"</string>
     <string name="categoría5">"Mobile Developer"</string>
+    <string name="categoría6">"Otra..."</string>
 
 </resources>

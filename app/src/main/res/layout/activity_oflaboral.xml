@@ -107,7 +107,7 @@
 
         <EditText
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberSigned"
             android:ems="10"
             android:id="@+id/editText2"
             android:textSize="12sp"
@@ -177,7 +177,7 @@
         <RadioButton
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButton4"
+            android:id="@+id/radioButton2"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             android:layout_marginTop="0dp"
@@ -195,7 +195,7 @@
 
         <RadioButton
             android:layout_height="wrap_content"
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioButton4"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             android:drawableBottom="@drawable/eu"
@@ -281,7 +281,7 @@
             android:text="Guardar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
+            android:id="@+id/buttonGuardar"
             android:layout_weight="1"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
@@ -292,7 +292,7 @@
             android:text="Cancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
+            android:id="@+id/buttonCancelar"
             android:layout_weight="1"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
