@@ -27,18 +27,22 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
 
     Intent tarea;
     int totalTrabajos;
+
     String nameCategoria;
     String[] listaCategorias;
     Categoria categoria;
     Spinner spinnerCategorias;
- /*   int horas;
-    int moneda;
+
+    int horas;
+    String stringHoras;
+    EditText editTextHoras;
+ /*   int moneda;
     double precio;*/
 
     /*
 
 
-        EditText editTextHoras;
+
         EditText editTextPrecio;
         EditText editTextFin;
         RadioGroup radGrup;
@@ -58,23 +62,27 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         tarea = getIntent();
         String nombre=tarea.getStringExtra("cantidadTrabajos");
         totalTrabajos = Integer.valueOf(nombre);
-        //totalTrabajos = tarea.getIntExtra("cantidadTrabajos");
-        Toast.makeText(getBaseContext(), "Total Trabajos: "+totalTrabajos, Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getBaseContext(), "Total Trabajos String: "+nombre, Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getBaseContext(), "Total Trabajos Integer: "+totalTrabajos, Toast.LENGTH_LONG).show();
         // Fin manejo del Intent
+        trabajo = null;
 
         nameCategoria = null;
         categoria = new Categoria();
-        trabajo = null;
         listaCategorias = null;
- /*       horas = 0;
-        precio = 0.0;
+        spinnerCategorias = (Spinner)findViewById(R.id.spinner);
+  /*      precio = 0.0;
         moneda = 6;// representando el por defecto, que es desconocido*/
 
-        spinnerCategorias = (Spinner)findViewById(R.id.spinner);
 
-   /*     editTextDescripcion = (EditText) findViewById(R.id.editText);
+
+        descripcion ="";
+        editTextDescripcion = (EditText) findViewById(R.id.editText);
+
+        horas = 0;
+        stringHoras ="";
         editTextHoras = (EditText) findViewById(R.id.editText2);
-        editTextPrecio = (EditText) findViewById(R.id.editText3);
+    /*    editTextPrecio = (EditText) findViewById(R.id.editText3);
         editTextFin = (EditText) findViewById(R.id.editText4);
 
         radGrup = (RadioGroup) findViewById(R.id.rdgroup);
@@ -115,34 +123,6 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         //-------------------------------------Fin del Spinner------------------------------------//
 
 
-        //--------------------------Manejo EditText (Descripción Trabajo)-------------------------//
-  /*     editTextDescripcion.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-                descripcion = s.toString();
-             }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
-        // Fin Listener
-        //--------------------------------Fin del EditText Descripción----------------------------//
-
-        //--------------------------Manejo EditText (Cantidad de Horas)---------------------------//
-      /*  editTextHoras.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-                horas = Integer.parseInt(s.toString());
-            //    Toast.makeText(getBaseContext(), "Horas por trabajar: "+horas, Toast.LENGTH_LONG).show();
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });*/
-        // Fin Listener
-        //----------------------------Fin del EditText Cantidad de Horas--------------------------//
 
         // Manejo EditText (Precio por Hora)
       /*  editTextPrecio.addTextChangedListener(new TextWatcher() {
@@ -202,12 +182,31 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         btGuardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0)
             {
-                Toast.makeText(getBaseContext(), "Boton Guardar", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getBaseContext(), "Cantidad de Trabajos: "+totalTrabajos, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getBaseContext(), "Boton Guardar", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getBaseContext(), "Cantidad de Trabajos: "+totalTrabajos, Toast.LENGTH_SHORT).show();
 
-           //     Toast.makeText(getBaseContext(), "Descripción: "+descripcion, Toast.LENGTH_SHORT).show();
+                // Extraemos los datos del campo "Descripción"
+                descripcion = editTextDescripcion.getText().toString();
+                if(descripcion.equals("")){ // si no ha ingresado descripción del puesto
+                    Toast.makeText(getBaseContext(),"Ingrese DESCRIPCIÓN de la Oferta", Toast.LENGTH_SHORT).show();
+                    editTextDescripcion.requestFocus();
+                }
+
+                // Extraemos los datos del campo "Horas de Trabajo"
+                stringHoras = editTextHoras.getText().toString();
+                if(stringHoras.equals("")){ // si no ha ingresado descripción del puesto
+                    Toast.makeText(getBaseContext(),"Ingrese las HORAS de TRABAJO", Toast.LENGTH_SHORT).show();
+                    editTextHoras.requestFocus();
+                }
+                horas = Integer.valueOf(stringHoras);
+
+               // Double.parseDouble(d.getText().toString())
+
+              //  Toast.makeText(getBaseContext(), "Descripción: "+descripcion, Toast.LENGTH_SHORT).show();
                 // creo mi nueva instancia Trabajo
-          //      trabajo = new Trabajo(totalTrabajos+1,descripcion,categoria);
+                trabajo = new Trabajo(totalTrabajos+1,descripcion,categoria);
+
+                Toast.makeText(getBaseContext(), "Datos de instancia Trabajo: "+ "\n"+"Categoría: "+trabajo.getCategoria().getDescripcion()+"\n"+"Descripción: "+descripcion+"\n"+"Horas: "+horas+"\n", Toast.LENGTH_SHORT).show();
 
                 // seteo los restantes valores ingresados en el Alta Trabajo
         /*        trabajo.setHorasPresupuestadas(horas);
@@ -231,6 +230,7 @@ public class NuevaOfLaboral extends AppCompatActivity implements Serializable {
         //        trabajo.getCategoria().addTrabajo(trabajo);
 
                // adapter.notifyDataSetChanged();
+                //finish();
             }
         });
 

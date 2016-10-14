@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.idMenu1:
                 Intent tarea= new Intent(this,NuevaOfLaboral.class);
                 tarea.putExtra("cantidadTrabajos",Integer.toString(listaTrabajos.size()));
+               // Toast.makeText(getBaseContext(), "Trabajos: "+Integer.toString(listaTrabajos.size()), Toast.LENGTH_SHORT).show();
                // tarea.putExtra("cantidadTrabajos",listaTrabajos.size());
                 startActivity(tarea);
                 return true;
